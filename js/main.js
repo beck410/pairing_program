@@ -15,26 +15,29 @@ document.addEventListener('DOMContentLoaded', function(){
 		var studentsClone = studentArray.clone();
 		removeExistingStudents();
 
-		if($selectBoxValue === "studentPairing"){
-			showStudentList(shuffledStudents[0]);
-		}
+		switch($selectBoxValue) {
+			case "studentPairing":
+				showStudentList(shuffledStudents[0]);
+				break;
+			
+			case "neighbourPairing":
+				spliceStudentsArray(studentsClone, 2)
+				break;
 
-		else if($selectBoxValue === "neighbourPairing"){
-			spliceStudentsArray(studentsClone, 2)
-		}
-
-		else if($selectBoxValue === "randomPairing"){	
-			spliceStudentsArray(shuffledStudents, 2);		
-		}
-		
-		else if($selectBoxValue === "neighbourThreePairing"){
-			spliceStudentsArray(studentsClone, 3);
-		}
-
-		else if($selectBoxValue === "randomNPairing") {
+			case "randomPairing":
+				spliceStudentsArray(shuffledStudents, 2);		
+				break;
+			case "neighbourThreePairing":
+				spliceStudentsArray(studentsClone, 3);
+				break;
+			case "randomNPairing":
 			var inputValue = document.querySelector(".people-number").value;	
 			spliceStudentsArray(shuffledStudents, inputValue);
-		}	
+			break;
+			default: 
+				return;
+				break;
+		}
 	});
 
 	//show people input box if select box value is randomNPairing otherwise hide it
@@ -73,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		return cloneArray;
 	}
 
-
+  //creates new li and inserts student names
 	function showStudentList(liText){
 		
 		//add new li element
@@ -99,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		input.style.display="none";
 	}
 
-	
+	//splices student array and sends student names to showStudentList function
 	function spliceStudentsArray(students, endIndex) {
 		while(students.length > 0){
 			var studentNames = students.splice(0, endIndex);
