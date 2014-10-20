@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	var studentArray = ['sue', 'bob', 'bill', 'beck', 'lucy', 'penny', 'jez', 'dave', 'luke', 'john'];
 	var $studentListParent = document.querySelector('.pairing-list');
  	var $form = document.getElementById("group-generator");	
+	var input = document.querySelector(".people-number");
 
 	//Event Listeners
 
@@ -12,9 +13,10 @@ document.addEventListener('DOMContentLoaded', function(){
 		var $selectBoxValue = $selectBox.options[$selectBox.selectedIndex].value;		
 		var peopleNumber;
 		var shuffledStudents = shuffleStudents(studentArray);
-		var studentsClone = studentArray.clone();
-		removeExistingStudents();
-
+		var studentsClone = studentArray.clone(); 
+		//removeExistingStudents();
+		
+		$studentListParent.innerText = "";
 		switch($selectBoxValue) {
 			case "studentPairing":
 				showStudentList(shuffledStudents[0]);
@@ -52,10 +54,6 @@ document.addEventListener('DOMContentLoaded', function(){
 	});
 
 	//Methods
-	Array.prototype.random = function(length) {
-		return this[Math.floor((Math.random()*length))];
-	}
-
 	Array.prototype.clone = function(){
 		return this.slice(0);
 	}
@@ -63,11 +61,6 @@ document.addEventListener('DOMContentLoaded', function(){
 	//Basic Functions
 	
 	//remove children of .pairing-list
-	function removeExistingStudents() {
-		while($studentListParent.firstChild) {
-			$studentListParent.removeChild($studentListParent.firstChild);
-		}
-	}
 
 	//clones & shuffles original student list
 	function shuffleStudents(array){
@@ -90,16 +83,13 @@ document.addEventListener('DOMContentLoaded', function(){
 	}
 
 	//show people-number input
-	function showNumberInput(){
-			var input = document.querySelector(".people-number");
-			input.style.display="block";
-
+	function hideNumberInput(){
+  	input.classList.add("hidden");		
 	}
 
 	//hide people-number input
-	function hideNumberInput(){
-		var input = document.querySelector(".people-number");
-		input.style.display="none";
+	function showNumberInput(){
+		input.classList.remove("hidden");			
 	}
 
 	//splices student array and sends student names to showStudentList function
@@ -113,3 +103,4 @@ document.addEventListener('DOMContentLoaded', function(){
 	}
 	
 });
+
