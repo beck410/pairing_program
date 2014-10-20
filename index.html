@@ -7,17 +7,19 @@
 </head>
 <body>
 	<h1>Pairing Program</h1>
- 		<select>
-			<option value="studentPairing">Random Student</option>
-			<option value="neighbourPairing">Neighbour Pairing</option>
-			<option value="randomPairing">Random Pairing</option>
-			<option value="neighbourThreePairing">Group of Three</option>
-			<option value="randomNPairing">Random Group</option>
-		</select>	
-		<input type="number" class="people-number" />
-		<button class="choose-option">Go!</button>
-		<div class="pairing-list">
-		</div>
+	<form id="group-generator">
+ 			<select name="group-criteria">
+				<option value="studentPairing">Random Student</option>
+				<option value="neighbourPairing">Neighbour Pairing</option>
+				<option value="randomPairing">Random Pairing</option>
+				<option value="neighbourThreePairing">Group of Three</option>
+				<option value="randomNPairing">Random Group</option>
+			</select>	
+			<input type="number" class="people-number" />
+			<input type='Submit'class="choose-option" value="Pick">
+		</form>
+		<ul class="pairing-list">
+		</ul>
 		<script type="text/javascript" src="js/main.js"></script>				
 </body>
 </html>  

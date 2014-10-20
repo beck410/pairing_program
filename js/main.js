@@ -1,44 +1,45 @@
 document.addEventListener('DOMContentLoaded', function(){
-
-	//when go button clicked pass it the option chosen (option value is the function to execute) 
 	
-	//Variables
-	var button = document.querySelector('.choose-option');
-	var selectBox = document.querySelector('select')
+	var $selectBox = document.querySelector('select')
 	var studentArray = ['sue', 'bob', 'bill', 'beck', 'lucy', 'penny', 'jez', 'dave', 'luke', 'john'];
-	var studentListParent = document.querySelector('.pairing-list'); 
+	var $studentListParent = document.querySelector('.pairing-list');
+ 	var $form = document.getElementById("group-generator");	
 
 	//Event Listeners
-	button.addEventListener('click', function(){	
-		var selectBoxValue = selectBox.options[selectBox.selectedIndex].value;		
-		var students = shuffleStudents(studentArray);
+
+	$form.addEventListener('submit', function(event){	
+		event.preventDefault();
+		var $selectBoxValue = $selectBox.options[$selectBox.selectedIndex].value;		
 		var peopleNumber;
+		var students = shuffleStudents(studentArray);
+		
 		removeExistingStudents();
 
-		if(selectBoxValue === "studentPairing"){
+		if($selectBoxValue === "studentPairing"){
 			studentPairing(students);
 		}
 
-		else if(selectBoxValue === "neighbourPairing"){
+		else if($selectBoxValue === "neighbourPairing"){
 			neighbourPairing(studentArray);	
 		}
 
-		else if(selectBoxValue === "randomPairing"){	
+		else if($selectBoxValue === "randomPairing"){	
 			randomPairing(students);		
 		}
 		
-		else if(selectBoxValue === "neighbourThreePairing"){
+		else if($selectBoxValue === "neighbourThreePairing"){
 			neighbourThreePairing(studentArray);
 		}
 
-		else if(selectBoxValue === "randomNPairing") {
+		else if($selectBoxValue === "randomNPairing") {
 			randomNPairing(students);
 		}	
 	});
 
-	selectBox.addEventListener('change', function(){
-		var selectBoxValue = selectBox.options[selectBox.selectedIndex].value;
-			if(selectBoxValue === "randomNPairing"){
+	//show people input box if select boc value is randomNPairing otherwise hide it
+	$selectBox.addEventListener('change', function(){
+		var $selectBoxValue = $selectBox.options[$selectBox.selectedIndex].value;
+			if($selectBoxValue === "randomNPairing"){
 				showNumberInput();
 			}
 			else {
@@ -59,8 +60,8 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	//remove children of .pairing-list
 	function removeExistingStudents() {
-		while(studentListParent.firstChild) {
-			studentListParent.removeChild(studentListParent.firstChild);
+		while($studentListParent.firstChild) {
+			$studentListParent.removeChild($studentListParent.firstChild);
 		}
 	}
 
@@ -72,16 +73,16 @@ document.addEventListener('DOMContentLoaded', function(){
 	}
 
 
-	function showStudentList(paraText){
+	function showStudentList(liText){
 		
-		//add new p element
-		var para = document.createElement('p');
+		//add new li element
+		var li = document.createElement('li');
 		//add text to p element
-		var name = document.createTextNode(paraText);
+		var name = document.createTextNode(liText);
 		//append text to p element
-		para.appendChild(name);
+		li.appendChild(name);
 		//append p to pairing-list div
-		studentListParent.appendChild(para);
+		$studentListParent.appendChild(li);
 	}
 
 	//show people-number input
@@ -107,49 +108,41 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	function neighbourPairing(students){
 		//take first two of array 
-		for(var i=0, j=1;i<students.length; i+= 2, j++){ 
-			//create string and separate with an 'and'
-			var pair = 'pair' + ' ' + j + ': ' + students[i] + ' and ' + students[i+1];
+		while(students.length > 0){	
+			var studentNames = students.splice(0, 2);
+			var innerText = studentNames.join(" and ");
 			//call function to append students
-			showStudentList(pair);	
+			showStudentList(innerText);	
 		}
 	}
 
 	function randomPairing(students){
 		//take first two of array 
-		for(var i=0, j=1;i<students.length; i+= 2, j++){ 
-		//create string and separate with an 'and'
-			var pair = 'pair' + ' ' + j + ': ' + students[i] + ' and ' + students[i+1];
-		//call showStudentList(string)
-			showStudentList(pair); 
-		//
+		while(students.length > 0){
+			var studentNames = students.splice(0,2);
+			var innerText = studentNames.join(" and ");			
+			//call showStudentList(string)
+			showStudentList(innerText); 
 		}
 	}
 
 	function neighbourThreePairing(students){		
 		//take first three of array 
-		for(var i=0, j=1;i<students.length; i+= 3, j++){ 
-		//create string and separate with an 'and'
-			var trio = 'pair' + ' ' + j + ': ' + students[i] + ', ' + students[i+1] + ' and ' +	students[i+3];
-		//call showStudentList(string)
-			showStudentList(trio);
+		while(students.length > 0){
+			var studentNames = students.splice(0,3);
+			var innerText = studentNames.join(" and ");			
+			//call showStudentList(string)						
+			showStudentList(innerText);
+			}
 		}	
-	}
 
 	function randomNPairing(students){
-		var input = document.querySelector(".people-number");
-		//working
-		var number = input.value;
-		var group;
-		//take first n of array 
-		while(students.length !== 0){
-			for(var i=0; i<number; i++){
-			 group += students[i];
-			}	
-		//call showStudentList(string)
-			showStudentList(group);
-			students.shift(number);
-
+		var inputValue = document.querySelector(".people-number").value;
+		while(students.length > 0){
+			var studentNames = students.splice(0, inputValue);
+			var innerText = studentNames.join(" and ");
+		  //call showStudentList(string)
+			showStudentList(innerText);
 		}	
 	}
 });
