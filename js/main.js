@@ -11,32 +11,33 @@ document.addEventListener('DOMContentLoaded', function(){
 		event.preventDefault();
 		var $selectBoxValue = $selectBox.options[$selectBox.selectedIndex].value;		
 		var peopleNumber;
-		var students = shuffleStudents(studentArray);
-		
+		var shuffledStudents = shuffleStudents(studentArray);
+		var studentsClone = studentArray.clone();
 		removeExistingStudents();
 
 		if($selectBoxValue === "studentPairing"){
-			studentPairing(students);
+			showStudentList(shuffledStudents[0]);
 		}
 
 		else if($selectBoxValue === "neighbourPairing"){
-			neighbourPairing(studentArray);	
+			spliceStudentsArray(studentsClone, 2)
 		}
 
 		else if($selectBoxValue === "randomPairing"){	
-			randomPairing(students);		
+			spliceStudentsArray(shuffledStudents, 2);		
 		}
 		
 		else if($selectBoxValue === "neighbourThreePairing"){
-			neighbourThreePairing(studentArray);
+			spliceStudentsArray(studentsClone, 3);
 		}
 
 		else if($selectBoxValue === "randomNPairing") {
-			randomNPairing(students);
+			var inputValue = document.querySelector(".people-number").value;	
+			spliceStudentsArray(shuffledStudents, inputValue);
 		}	
 	});
 
-	//show people input box if select boc value is randomNPairing otherwise hide it
+	//show people input box if select box value is randomNPairing otherwise hide it
 	$selectBox.addEventListener('change', function(){
 		var $selectBoxValue = $selectBox.options[$selectBox.selectedIndex].value;
 			if($selectBoxValue === "randomNPairing"){
@@ -97,52 +98,15 @@ document.addEventListener('DOMContentLoaded', function(){
 		var input = document.querySelector(".people-number");
 		input.style.display="none";
 	}
+
 	
-	//Specific Functions
-	
-	function studentPairing(students){	
-		for(var i=0;i<students.length; i++){
-			showStudentList(students[i]);
-		}
-	}
-
-	function neighbourPairing(students){
-		//take first two of array 
-		while(students.length > 0){	
-			var studentNames = students.splice(0, 2);
-			var innerText = studentNames.join(" and ");
-			//call function to append students
-			showStudentList(innerText);	
-		}
-	}
-
-	function randomPairing(students){
-		//take first two of array 
+	function spliceStudentsArray(students, endIndex) {
 		while(students.length > 0){
-			var studentNames = students.splice(0,2);
-			var innerText = studentNames.join(" and ");			
-			//call showStudentList(string)
-			showStudentList(innerText); 
-		}
-	}
-
-	function neighbourThreePairing(students){		
-		//take first three of array 
-		while(students.length > 0){
-			var studentNames = students.splice(0,3);
-			var innerText = studentNames.join(" and ");			
-			//call showStudentList(string)						
-			showStudentList(innerText);
-			}
-		}	
-
-	function randomNPairing(students){
-		var inputValue = document.querySelector(".people-number").value;
-		while(students.length > 0){
-			var studentNames = students.splice(0, inputValue);
+			var studentNames = students.splice(0, endIndex);
 			var innerText = studentNames.join(" and ");
 		  //call showStudentList(string)
 			showStudentList(innerText);
-		}	
+		}
 	}
+	
 });
